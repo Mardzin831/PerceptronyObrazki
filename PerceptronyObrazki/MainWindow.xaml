@@ -6,11 +6,19 @@
         xmlns:local="clr-namespace:PerceptronyObrazki"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <InkCanvas x:Name="drawSpace" Height="50" Width="50" Margin="10,10,733.6,360">
-            <InkCanvas.DefaultDrawingAttributes>
-                <DrawingAttributes Color="Black" Width="5" Height="5" />
-            </InkCanvas.DefaultDrawingAttributes>
-        </InkCanvas>
-    </Grid>
+    <Viewbox Stretch="Fill">
+        <Grid Height="420" Width="794">
+            <Border Height="50" Width="50" Margin="10,10,584,210" BorderThickness="4" BorderBrush="DarkBlue">
+                <InkCanvas x:Name="drawSpace" >
+                    <InkCanvas.DefaultDrawingAttributes>
+                        <DrawingAttributes Color="Black" Width="5" Height="5" />
+                    </InkCanvas.DefaultDrawingAttributes>
+                </InkCanvas>
+            </Border>
+            <Button Content="Zapisz" HorizontalAlignment="Left" Margin="10,245,0,0" VerticalAlignment="Top" Width="75" Click="SavePointsClick"/>
+            <Button Content="Wyczyść" HorizontalAlignment="Left" Margin="135,245,0,0" VerticalAlignment="Top" Width="75" Click="ClearClick"/>
+            <Button Content="Wczytaj" HorizontalAlignment="Left" Margin="10,283,0,0" VerticalAlignment="Top" Width="75" Click="LoadPointsClick"/>
+
+        </Grid>
+    </Viewbox>
 </Window>
