@@ -5,19 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PerceptronyObrazki"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="552.544" Width="887.062">
     <Viewbox Stretch="Fill">
         <Grid Height="420" Width="794">
-            <Border Height="50" Width="50" Margin="10,10,584,210" BorderThickness="4" BorderBrush="DarkBlue">
+            <Border Height="50" Width="50" Margin="10,10,684,310" BorderThickness="4" BorderBrush="DarkBlue">
                 <InkCanvas x:Name="drawSpace" >
                     <InkCanvas.DefaultDrawingAttributes>
                         <DrawingAttributes Color="Black" Width="5" Height="5" />
                     </InkCanvas.DefaultDrawingAttributes>
                 </InkCanvas>
+                <Border.RenderTransform>
+                    <ScaleTransform CenterX="0" CenterY="0" ScaleX="5" ScaleY="5" />
+                </Border.RenderTransform>
             </Border>
-            <Button Content="Zapisz" HorizontalAlignment="Left" Margin="10,245,0,0" VerticalAlignment="Top" Width="75" Click="SavePointsClick"/>
-            <Button Content="Wyczyść" HorizontalAlignment="Left" Margin="135,245,0,0" VerticalAlignment="Top" Width="75" Click="ClearClick"/>
-            <Button Content="Wczytaj" HorizontalAlignment="Left" Margin="10,283,0,0" VerticalAlignment="Top" Width="75" Click="LoadPointsClick"/>
+            <Border Height="50" Width="50" Margin="508,35,236,335" BorderThickness="4" BorderBrush="DarkBlue">
+                <InkCanvas x:Name="drawSpace2" >
+                    <InkCanvas.DefaultDrawingAttributes>
+                        <DrawingAttributes Color="Black" Width="5" Height="5" />
+                    </InkCanvas.DefaultDrawingAttributes>
+                </InkCanvas>
+                <Border.RenderTransform>
+                    <ScaleTransform CenterX="0" CenterY="0" ScaleX="5" ScaleY="5" />
+                </Border.RenderTransform>
+            </Border>
+            <Button Content="Zapisz" HorizontalAlignment="Left" Margin="55,309,0,0" VerticalAlignment="Top" Width="101" Click="SavePointsClick"/>
+            <Button Content="Wyczyść" HorizontalAlignment="Left" Margin="188,309,0,0" VerticalAlignment="Top" Width="75" Click="ClearClick"/>
+            <Button Content="Wczytaj" HorizontalAlignment="Left" Margin="55,333,0,0" VerticalAlignment="Top" Width="101" Click="LoadPointsClick"/>
+            <Button Content="Zapisz jako nowy" HorizontalAlignment="Left" Margin="55,368,0,0" VerticalAlignment="Top" Width="101" Click="AddNewClick" Height="24"/>
+            <Button Content="->" HorizontalAlignment="Left" Margin="325,130,0,0" VerticalAlignment="Top" Width="37" Height="33" FontSize="20" Click="NextClick"/>
+            <Button Content="Wyczyść" HorizontalAlignment="Left" Margin="660,309,0,0" VerticalAlignment="Top" Width="75" Click="Clear2Click"/>
+            <Button Content="Zaszum" HorizontalAlignment="Left" Margin="306,181,0,0" VerticalAlignment="Top" Width="75" Click="MessClick"/>
+            <Button Content="Naucz" HorizontalAlignment="Left" Margin="306,205,0,0" VerticalAlignment="Top" Width="75" Click="TrainClick"/>
+
 
         </Grid>
     </Viewbox>
