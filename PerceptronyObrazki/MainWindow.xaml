@@ -11,7 +11,7 @@
             <Border Height="50" Width="50" Margin="10,10,684,310" BorderThickness="4" BorderBrush="DarkBlue">
                 <InkCanvas x:Name="drawSpace" >
                     <InkCanvas.DefaultDrawingAttributes>
-                        <DrawingAttributes Color="Black" Width="5" Height="5" />
+                        <DrawingAttributes Color="Black" Width="4" Height="4" StylusTip="Rectangle"/>
                     </InkCanvas.DefaultDrawingAttributes>
                 </InkCanvas>
                 <Border.RenderTransform>
@@ -21,7 +21,7 @@
             <Border Height="50" Width="50" Margin="508,35,236,335" BorderThickness="4" BorderBrush="DarkBlue">
                 <InkCanvas x:Name="drawSpace2" >
                     <InkCanvas.DefaultDrawingAttributes>
-                        <DrawingAttributes Color="Black" Width="5" Height="5" />
+                        <DrawingAttributes Color="Black" Width="4" Height="4" StylusTip="Rectangle"/>
                     </InkCanvas.DefaultDrawingAttributes>
                 </InkCanvas>
                 <Border.RenderTransform>
@@ -34,7 +34,7 @@
             <Button Content="Zapisz jako nowy" HorizontalAlignment="Left" Margin="55,368,0,0" VerticalAlignment="Top" Width="101" Click="AddNewClick" Height="24"/>
             <Button Content="->" HorizontalAlignment="Left" Margin="325,130,0,0" VerticalAlignment="Top" Width="37" Height="33" FontSize="20" Click="NextClick"/>
             <Button Content="Wyczyść" HorizontalAlignment="Left" Margin="660,309,0,0" VerticalAlignment="Top" Width="75" Click="Clear2Click"/>
-            <Button Content="Zaszum" HorizontalAlignment="Left" Margin="306,181,0,0" VerticalAlignment="Top" Width="75" Click="MessClick"/>
+            <Button Content="Zaszum" HorizontalAlignment="Left" Margin="306,181,0,0" VerticalAlignment="Top" Width="75" Click="NoiseClick"/>
             <Button Content="Naucz" HorizontalAlignment="Left" Margin="306,205,0,0" VerticalAlignment="Top" Width="75" Click="TrainClick"/>
 
 

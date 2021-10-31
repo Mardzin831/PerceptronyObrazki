@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using AForge.Imaging.Filters;
+using AForge.Math.Random;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,11 +27,18 @@ namespace PerceptronyObrazki
         public List<int> imagePoints = new List<int>();
         public int toLoad = 8;
         public int imageNumber = 0;
-
+        public Random randN = new Random();
+        DrawingAttributes attributes = new DrawingAttributes();
+        
         public MainWindow()
         {
             InitializeComponent();
-            for(int i = 1; i <= toLoad; i++)
+
+            attributes.StylusTip = StylusTip.Rectangle;
+            attributes.Width = 1;
+            attributes.Height = 1;
+
+            for (int i = 1; i <= toLoad; i++)
             {
                 var fs = new FileStream("obrazek" + i.ToString(), FileMode.Open, FileAccess.Read);
                 strokes.Add(new StrokeCollection(fs));
@@ -64,9 +73,9 @@ namespace PerceptronyObrazki
                 }
                 t = 0;
             }
-            for(int i = 0; i < 2500; i++)
+            for (int i = 0; i < 2500; i++)
             {
-                if(i % 50 == 0)
+                if (i % 50 == 0)
                 {
                     Debug.WriteLine("");
                 }
@@ -80,9 +89,44 @@ namespace PerceptronyObrazki
                 }
             }
         }
-        private void MessClick(object sender, RoutedEventArgs e)
+        private void NoiseClick(object sender, RoutedEventArgs e)
         {
-            //drawSpace.Strokes
+            int d;
+            StylusPoint p;
+            List<Stroke> l = new List<Stroke>();
+            DrawingAttributes attributesDelete = new DrawingAttributes();
+            attributesDelete.Color = Colors.White;
+            attributesDelete.StylusTip = StylusTip.Rectangle;
+            attributesDelete.Width = 1;
+            attributesDelete.Height = 1;
+
+            for (int i = 0; i < 40; i++)
+            {
+                d = randN.Next(2500);
+                if (imagePoints[d] == -1)
+                {
+                    StylusPointCollection points = new StylusPointCollection();
+                    
+                    imagePoints[d] = 1;
+                    p = new StylusPoint(d % 50, d / 50);
+                    points.Add(p);
+                    Stroke s = new Stroke(points, attributes); 
+                    l.Add(s);
+                    drawSpace.Strokes.Add(s);
+                }
+                else
+                {
+                    StylusPointCollection points = new StylusPointCollection();
+
+                    imagePoints[d] = -1;
+                    p = new StylusPoint(d % 50, d / 50);
+                    points.Add(p);
+                    Stroke s = new Stroke(points, attributesDelete);
+                    l.Add(s);
+                    drawSpace.Strokes.Add(s);
+                }
+            }
+            
         }
         private void SavePointsClick(object sender, RoutedEventArgs e)
         {
