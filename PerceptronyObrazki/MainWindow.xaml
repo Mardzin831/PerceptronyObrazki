@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="552.544" Width="887.062">
     <Viewbox Stretch="Fill">
-        <Grid Height="420" Width="794">
+        <Grid Height="422" Width="794">
             <Border Height="50" Width="50" Margin="10,10,684,310" BorderThickness="4" BorderBrush="DarkBlue">
                 <InkCanvas x:Name="drawSpace" >
                     <InkCanvas.DefaultDrawingAttributes>
@@ -28,14 +28,16 @@
                     <ScaleTransform CenterX="0" CenterY="0" ScaleX="5" ScaleY="5" />
                 </Border.RenderTransform>
             </Border>
-            <Button Content="Zapisz" HorizontalAlignment="Left" Margin="55,309,0,0" VerticalAlignment="Top" Width="101" Click="SavePointsClick"/>
-            <Button Content="Wyczyść" HorizontalAlignment="Left" Margin="188,309,0,0" VerticalAlignment="Top" Width="75" Click="ClearClick"/>
-            <Button Content="Wczytaj" HorizontalAlignment="Left" Margin="55,333,0,0" VerticalAlignment="Top" Width="101" Click="LoadPointsClick"/>
-            <Button Content="Zapisz jako nowy" HorizontalAlignment="Left" Margin="55,368,0,0" VerticalAlignment="Top" Width="101" Click="AddNewClick" Height="24"/>
-            <Button x:Name="nextButton" Content="->" HorizontalAlignment="Left" Margin="325,130,0,0" VerticalAlignment="Top" Width="37" Height="33" FontSize="20" Click="NextClick"/>
+            <Button Content="Zapisz" HorizontalAlignment="Left" Margin="55,329,0,0" VerticalAlignment="Top" Width="101" Click="SavePointsClick"/>
+            <Button Content="Wyczyść" HorizontalAlignment="Left" Margin="191,329,0,0" VerticalAlignment="Top" Width="75" Click="ClearClick"/>
+            <Button Content="Wczytaj" HorizontalAlignment="Left" Margin="55,353,0,0" VerticalAlignment="Top" Width="101" Click="LoadPointsClick"/>
+            <Button Content="Zapisz jako nowy" HorizontalAlignment="Left" Margin="55,386,0,0" VerticalAlignment="Top" Width="101" Click="AddNewClick" Height="24"/>
+            <Button x:Name="nextButton" Content="->" HorizontalAlignment="Left" Margin="146,289,0,0" VerticalAlignment="Top" Width="37" Height="26" FontSize="15" Click="NextClick"/>
             <Button Content="Wyczyść" HorizontalAlignment="Left" Margin="660,309,0,0" VerticalAlignment="Top" Width="75" Click="Clear2Click"/>
             <Button Content="Zaszum" HorizontalAlignment="Left" Margin="306,181,0,0" VerticalAlignment="Top" Width="75" Click="NoiseClick"/>
             <Button Content="Naucz" HorizontalAlignment="Left" Margin="306,205,0,0" VerticalAlignment="Top" Width="75" Click="TrainClick"/>
+            <Button x:Name="outputButton" Content="-&gt;" HorizontalAlignment="Left" Margin="425,105,0,0" VerticalAlignment="Top" Width="47" Height="46" FontSize="20" Click="PredictClick"/>
+            <Button x:Name="backButton" Content="&lt;-" HorizontalAlignment="Left" Margin="425,156,0,0" VerticalAlignment="Top" Width="47" Height="46" FontSize="20" Click="BackClick"/>
 
 
         </Grid>

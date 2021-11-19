@@ -27,7 +27,7 @@ namespace PerceptronyObrazki
         public List<int> imagePoints = new List<int>();
         public List<int> imagePoints2 = new List<int>();
         public List<int> tmpList = new List<int>();
-        public int toLoad = 8;
+        public int toLoad = 7;
         public int imageNumber = 0;
         public Random randN = new Random();
         public Random randW = new Random();
@@ -36,12 +36,10 @@ namespace PerceptronyObrazki
 
         public List<List<double>> perceptron = new List<List<double>>();
         public List<List<int>> examples = new List<List<int>>();
-        //public List<int> answers = new List<int>();
-        //public List<int> example = new List<int>();
-        public int maxRounds = 1000;
+        public int maxRounds = 700;
         public double learn_const = 0.5;
-    
-        
+        public double percent = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -63,14 +61,73 @@ namespace PerceptronyObrazki
                 imagePoints2.Add(-1);
                 tmpList.Add(-1);
             }
+            ResetPoints();
             FillExamples();
-        }
+            //foreach (List<int> ex in examples)
+            //{
+            //    for (int i = 0; i < 2500; i++)
+            //    {
+            //        if (ex[i] == 1)
+            //        {
+            //            Debug.Write("X");
+            //        }
+            //        else
+            //        {
+            //            Debug.Write("-");
+            //        }
+            //        if ((i + 1) % 50 == 0)
+            //        {
+            //            Debug.WriteLine("");
+            //        }
 
+            //    }
+            //}
+        }
+        public void check(int perc)
+        {
+            int T;
+            int O;
+            double sum;
+            double g = 0;
+            for (int k = 0; k < examples.Count(); k++)
+            {
+                sum = 0;
+                if (examples[k][perc] == 1)
+                {
+                    T = 1;
+                }
+                else
+                {
+                    T = -1;
+                }
+
+                for (int i = 1; i < 36; i++)
+                {
+                    sum += perceptron[perc][i] * examples[k][i - 1];
+                }
+
+                if (sum < perceptron[perc][0])
+                {
+                    O = -1;
+                }
+                else
+                {
+                    O = 1;
+                }
+                if (O == T)
+                {
+                    g++;
+                }
+            }
+            percent += g / toLoad * 100;
+        }
         public void FillExamples()
         {
-            for(int i = 0; i < toLoad; i++)
+            for (int i = 0; i < toLoad; i++)
             {
                 int t = 0;
+                examples.Add(new List<int>(tmpList));
+
                 foreach (var stroke in drawSpace.Strokes)
                 {
                     Geometry sketchGeo = stroke.GetGeometry();
@@ -82,11 +139,9 @@ namespace PerceptronyObrazki
                         {
                             Point p = new Point(x, y);
 
-                            examples.Add(tmpList);
-
                             if (sketchGeo.FillContains(p))
                             {
-                                examples[toLoad][t] = 1;
+                                examples[i][t] = 1;
                             }
                             t++;
                         }
@@ -99,7 +154,7 @@ namespace PerceptronyObrazki
 
         public List<double> Weights(List<double> w)
         {
-            for (int i = 0; i < 2500; i++)
+            for (int i = 0; i < 2501; i++)
             {
                 w.Add(2.0 * randW.NextDouble() - 1.0);
             }
@@ -109,21 +164,47 @@ namespace PerceptronyObrazki
         {
             for (int i = 0; i < 2500; i++)
             {
-                perceptron[i] = Training(i);
+                //perceptron[i] = Training(i);
+                Training(i);
+                check(i);
             }
-            double sum = 0;
+            Debug.WriteLine("Nauczony w: " + percent / 2500 + " %");
+        }
+        private void PredictClick(object sender, RoutedEventArgs e)
+        {
+            //for (int i = 0; i < 2500; i++)
+            //{
+            //    Debug.Write(imagePoints[i]);
+            //    if ((i + 1) % 50 == 0)
+            //    {
+            //        Debug.WriteLine("");
+            //    }
+            //}
+
+            //return;
+
+            if (perceptron.Count() == 0)
+            {
+                return;
+            }
+            ClearImage2();
+
             for (int i = 0; i < 2500; i++)
             {
-                for (int j = 1; j < 2500; j++)
+                double sum = 0;
+                for (int j = 1; j < 2501; j++)
                 {
                     sum += perceptron[i][j] * imagePoints[j - 1];
                 }
+                //Debug.WriteLine(sum);
+
                 StylusPoint p;
                 List<Stroke> l = new List<Stroke>();
                 StylusPointCollection points = new StylusPointCollection();
-                imagePoints2[i] = 1;
+                
                 if (sum > perceptron[i][0])
                 {
+                    imagePoints2[i] = 1;
                     p = new StylusPoint(i % 50, i / 50);
                     points.Add(p);
                     Stroke s = new Stroke(points, attributes);
@@ -132,12 +213,27 @@ namespace PerceptronyObrazki
                 }
             }
         }
-        public List<double> Training(int perc)
+        private void BackClick(object sender, RoutedEventArgs e)
+        {
+            ClearImage();
+            drawSpace.Strokes = new StrokeCollection(drawSpace2.Strokes);
+            imagePoints = new List<int>(imagePoints2);
+            //for (int i = 0; i < 2500; i++)
+            //{
+            //    Debug.Write(imagePoints[i]);
+            //    if ((i + 1) % 50 == 0)
+            //    {
+            //        Debug.WriteLine("");
+            //    }
+            //}
+        }
+
+        public /*List<double>*/ void Training(int perc)
         {
             List<double> w = new List<double>();
             w = Weights(w);
-            List<double> pocket = new List<double>();
-            pocket.AddRange(w);
+            List<double> pocket = new List<double>(w);
+            
             int drawn;
             int T;
             int O;
@@ -151,7 +247,7 @@ namespace PerceptronyObrazki
                 drawn = randE.Next(toLoad);
                 double sum = 0;
 
-                if (examples[drawn][perc] == perc)
+                if (examples[drawn][perc] == 1)
                 {
                     T = 1;
                 }
@@ -160,7 +256,7 @@ namespace PerceptronyObrazki
                     T = -1;
                 }
 
-                for (int i = 1; i < 2500; i++)
+                for (int i = 1; i < 2501; i++)
                 {
                     sum += w[i] * examples[drawn][i - 1];
                 }
@@ -177,18 +273,17 @@ namespace PerceptronyObrazki
                 ERR = T - O;
                 if (ERR == 0)
                 {
-
                     lifespan++;
                     if (lifespan > record)
                     {
                         record = lifespan;
-                        pocket.Clear();
-                        pocket.AddRange(w);
+                        pocket = new List<double>(w);
+                        
                     }
                 }
                 else
                 {
-                    for (int i = 1; i < 2500; i++)
+                    for (int i = 1; i < 2501; i++)
                     {
                         w[i] += learn_const * ERR * examples[drawn][i - 1];
                     }
@@ -198,8 +293,6 @@ namespace PerceptronyObrazki
                 round++;
             }
             perceptron.Add(pocket);
-
-            return pocket;
 
             //for (int i = 0; i < 2500; i++)
             //{
@@ -217,6 +310,7 @@ namespace PerceptronyObrazki
             //    }
             //}
 
+            //return pocket;
         }
         private void NoiseClick(object sender, RoutedEventArgs e)
         {
@@ -255,7 +349,6 @@ namespace PerceptronyObrazki
                     drawSpace.Strokes.Add(s);
                 }
             }
-            
         }
         private void SavePointsClick(object sender, RoutedEventArgs e)
         {
@@ -285,7 +378,6 @@ namespace PerceptronyObrazki
             toLoad++;
 
         }
-
         private void NextClick(object sender, RoutedEventArgs e)
         {
             if (imageNumber == toLoad - 1)
@@ -299,19 +391,57 @@ namespace PerceptronyObrazki
 
         private void ClearClick(object sender, RoutedEventArgs e)
         {
-            drawSpace.Strokes.Clear();
+            ClearImage();
         }
         private void Clear2Click(object sender, RoutedEventArgs e)
         {
-            drawSpace2.Strokes.Clear();
+            ClearImage2();
         }
+        public void ClearImage()
+        {
+            drawSpace.Strokes.Clear();
+            for (int i = 0; i < 2500; i++)
+            {
+                imagePoints[i] = -1;
+            }
+        }
+        public void ClearImage2()
+        {
+            drawSpace2.Strokes.Clear();
+            for (int i = 0; i < 2500; i++)
+            {
+                imagePoints2[i] = -1;
+            }
+        }
+
         public void ResetPoints()
         {
             for (int i = 0; i < 2500; i++)
             {
                 imagePoints[i] = -1;
             }
-        }
+            int t = 0;
 
+            foreach (var stroke in drawSpace.Strokes)
+            {
+                Geometry sketchGeo = stroke.GetGeometry();
+                //Rect strokeBounds = sketchGeo.Bounds;
+
+                for (int y = 0; y < 50; y++)
+                {
+                    for (int x = 0; x < 50; x++)
+                    {
+                        Point p = new Point(x, y);
+
+                        if (sketchGeo.FillContains(p))
+                        {
+                            imagePoints[t] = 1;
+                        }
+                        t++;
+                    }
+                }
+                t = 0;
+            }
+        }
     }
 }
